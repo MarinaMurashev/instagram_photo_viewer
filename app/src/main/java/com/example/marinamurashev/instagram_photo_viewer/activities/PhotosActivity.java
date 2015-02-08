@@ -37,7 +37,9 @@ public class PhotosActivity extends ActionBarActivity {
         ListView lvPhotos = (ListView) findViewById(R.id.lvPhotos);
         lvPhotos.setAdapter(instagramPhotosAdapter);
 
-        fetchPopularPhotos();
+//        fetchPopularPhotos();
+
+        new InstagramPopularMediaService(instagramPhotosAdapter, instagramPhotos).fetchPopularPhotos();
 
     }
 

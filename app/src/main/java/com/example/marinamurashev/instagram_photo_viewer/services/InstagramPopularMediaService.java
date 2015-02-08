@@ -2,6 +2,7 @@ package com.example.marinamurashev.instagram_photo_viewer.services;
 
 import android.util.Log;
 
+import com.example.marinamurashev.instagram_photo_viewer.adapters.InstagramPhotosAdapter;
 import com.example.marinamurashev.instagram_photo_viewer.models.InstagramPhoto;
 import com.loopj.android.http.AsyncHttpClient;
 import com.loopj.android.http.JsonHttpResponseHandler;
@@ -14,12 +15,18 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 
 public class InstagramPopularMediaService {
-    private ArrayList<InstagramPhoto> instagramPhotos = new ArrayList<>();
+    private ArrayList<InstagramPhoto> instagramPhotos;
+    private InstagramPhotosAdapter instagramPhotosAdapter;
 
     public static final String CLIENT_ID = "6d191da54a784f669b0df97ec01c6eab";
     public static final String URL = "https://api.instagram.com/v1/media/popular";
 
-    public ArrayList<InstagramPhoto> fetchPopularPhotos(){
+    public InstagramPopularMediaService(InstagramPhotosAdapter instagramPhotosAdapter, ArrayList<InstagramPhoto> instagramPhotos){
+        this.instagramPhotosAdapter = instagramPhotosAdapter;
+        this.instagramPhotos = instagramPhotos;
+    }
+
+    public void fetchPopularPhotos(){
         String url = URL + "?client_id=" + CLIENT_ID;
         AsyncHttpClient client = new AsyncHttpClient();
 
@@ -49,6 +56,7 @@ public class InstagramPopularMediaService {
                     e.printStackTrace();
                 }
 
+                instagramPhotosAdapter.notifyDataSetChanged();
             }
 
             @Override
@@ -56,7 +64,5 @@ public class InstagramPopularMediaService {
                 Log.i("DEBUG", "INSIDE OF FAILURE");
             }
         });
-
-        return instagramPhotos;
     }
 }
