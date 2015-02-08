@@ -17,29 +17,43 @@ import java.util.List;
 
 public class InstagramPhotosAdapter extends ArrayAdapter<InstagramPhoto> {
 
+    private static class ViewHolder {
+        TextView tvCaption;
+        TextView tvUsername;
+        ImageView ivPhoto;
+        ImageView ivUserPhoto;
+    }
+
+
     public InstagramPhotosAdapter(Context context, List<InstagramPhoto> objects) {
-        super(context, android.R.layout.simple_list_item_1, objects);
+        super(context, R.layout.item_photo, objects);
     }
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
         InstagramPhoto instagramPhoto = getItem(position);
+        ViewHolder viewHolder;
 
         if(convertView == null) {
-            convertView = LayoutInflater.from(getContext()).inflate(R.layout.item_photo, parent, false);
+            viewHolder = new ViewHolder();
+            LayoutInflater inflater = LayoutInflater.from(getContext());
+            convertView = inflater.inflate(R.layout.item_photo, parent, false);
+
+            viewHolder.tvCaption = (TextView) convertView.findViewById(R.id.tvCaption);
+            viewHolder.tvUsername = (TextView) convertView.findViewById(R.id.tvUsername);
+            viewHolder.ivPhoto = (ImageView) convertView.findViewById(R.id.ivPhoto);
+            viewHolder.ivUserPhoto = (ImageView) convertView.findViewById(R.id.ivUserPhoto);
+            convertView.setTag(viewHolder);
+        }else {
+            viewHolder = (ViewHolder) convertView.getTag();
         }
 
-        TextView tvCaption = (TextView) convertView.findViewById(R.id.tvCaption);
-        TextView tvUsername = (TextView) convertView.findViewById(R.id.tvUsername);
-        ImageView ivPhoto = (ImageView) convertView.findViewById(R.id.ivPhoto);
-        ImageView ivUserPhoto = (ImageView) convertView.findViewById(R.id.ivUserPhoto);
-
         String boldUsername = "<b>" + instagramPhoto.getUsername() + "</b>";
-        tvUsername.setText(Html.fromHtml(boldUsername));
-        tvCaption.setText(instagramPhoto.getCaption());
-        ivPhoto.setImageResource(0);
-        Picasso.with(getContext()).load(instagramPhoto.getImageUrl()).into(ivPhoto);
-        Picasso.with(getContext()).load(instagramPhoto.getUserProfileImageUrl()).into(ivUserPhoto);
+        viewHolder.tvUsername.setText(Html.fromHtml(boldUsername));
+        viewHolder.tvCaption.setText(instagramPhoto.getCaption());
+        viewHolder.ivPhoto.setImageResource(0);
+        Picasso.with(getContext()).load(instagramPhoto.getImageUrl()).into(viewHolder.ivPhoto);
+        Picasso.with(getContext()).load(instagramPhoto.getUserProfileImageUrl()).into(viewHolder.ivUserPhoto);
 
         return convertView;
     }
