@@ -61,6 +61,7 @@ public class InstagramPopularMediaService {
         InstagramPhoto instagramPhoto = new InstagramPhoto();
         instagramPhoto.setUsername(photoJSON.getJSONObject("user").getString("username"));
         instagramPhoto.setLikesCount(photoJSON.getJSONObject("likes").getInt("count"));
+        instagramPhoto.setUserProfileImageUrl(photoJSON.getJSONObject("user").getString("profile_picture"));
 
         if (photoJSON.optJSONObject("caption") != null) {
             instagramPhoto.setCaption(photoJSON.getJSONObject("caption").getString("text"));

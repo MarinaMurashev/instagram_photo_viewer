@@ -7,6 +7,16 @@ public class InstagramPhoto {
     private int likesCount;
     private int imageHeight;
 
+    public String getUserProfileImageUrl() {
+        return userProfileImageUrl;
+    }
+
+    public void setUserProfileImageUrl(String userProfileImageUrl) {
+        this.userProfileImageUrl = userProfileImageUrl;
+    }
+
+    private String userProfileImageUrl;
+
     public int getLikesCount() {
         return likesCount;
     }

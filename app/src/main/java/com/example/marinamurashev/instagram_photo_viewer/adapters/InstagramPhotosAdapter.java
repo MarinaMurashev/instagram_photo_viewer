@@ -32,12 +32,14 @@ public class InstagramPhotosAdapter extends ArrayAdapter<InstagramPhoto> {
         TextView tvCaption = (TextView) convertView.findViewById(R.id.tvCaption);
         TextView tvUsername = (TextView) convertView.findViewById(R.id.tvUsername);
         ImageView ivPhoto = (ImageView) convertView.findViewById(R.id.ivPhoto);
+        ImageView ivUserPhoto = (ImageView) convertView.findViewById(R.id.ivUserPhoto);
 
         String boldUsername = "<b>" + instagramPhoto.getUsername() + "</b>";
         tvUsername.setText(Html.fromHtml(boldUsername));
         tvCaption.setText(instagramPhoto.getCaption());
         ivPhoto.setImageResource(0);
         Picasso.with(getContext()).load(instagramPhoto.getImageUrl()).into(ivPhoto);
+        Picasso.with(getContext()).load(instagramPhoto.getUserProfileImageUrl()).into(ivUserPhoto);
 
         return convertView;
     }
