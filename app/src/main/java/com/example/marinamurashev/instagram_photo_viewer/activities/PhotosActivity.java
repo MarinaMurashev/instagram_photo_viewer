@@ -5,10 +5,12 @@ import android.support.v7.app.ActionBarActivity;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.ListView;
 
 import com.example.marinamurashev.instagram_photo_viewer.R;
+import com.example.marinamurashev.instagram_photo_viewer.adapters.InstagramPhotosAdapter;
 import com.example.marinamurashev.instagram_photo_viewer.models.InstagramPhoto;
-import com.example.marinamurashev.instagram_photo_viewer.services.InstagramPopularMedia;
+import com.example.marinamurashev.instagram_photo_viewer.services.InstagramPopularMediaService;
 import com.loopj.android.http.AsyncHttpClient;
 import com.loopj.android.http.JsonHttpResponseHandler;
 
@@ -23,6 +25,7 @@ import java.util.ArrayList;
 public class PhotosActivity extends ActionBarActivity {
 
     private ArrayList<InstagramPhoto> instagramPhotos;
+    private InstagramPhotosAdapter instagramPhotosAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -30,22 +33,26 @@ public class PhotosActivity extends ActionBarActivity {
         setContentView(R.layout.activity_photos);
 
         instagramPhotos = new ArrayList<>();
+        instagramPhotosAdapter = new InstagramPhotosAdapter(this, instagramPhotos);
+        ListView lvPhotos = (ListView) findViewById(R.id.lvPhotos);
+        lvPhotos.setAdapter(instagramPhotosAdapter);
+
         fetchPopularPhotos();
 
     }
 
     public void fetchPopularPhotos(){
-        String url = InstagramPopularMedia.URL + "?client_id=" + InstagramPopularMedia.CLIENT_ID;
+        String url = InstagramPopularMediaService.URL + "?client_id=" + InstagramPopularMediaService.CLIENT_ID;
         AsyncHttpClient client = new AsyncHttpClient();
 
-        client.get(url, null, new JsonHttpResponseHandler(){
+        client.get(url, null, new JsonHttpResponseHandler() {
             @Override
             public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
                 JSONArray photosJSON = null;
-                try{
+                try {
                     photosJSON = response.getJSONArray("data");
 
-                    for(int i = 0; i < photosJSON.length(); i++){
+                    for (int i = 0; i < photosJSON.length(); i++) {
                         JSONObject photoJSON = photosJSON.getJSONObject(i);
 
                         InstagramPhoto instagramPhoto = new InstagramPhoto();
@@ -60,10 +67,11 @@ public class PhotosActivity extends ActionBarActivity {
 
                         instagramPhotos.add(instagramPhoto);
                     }
-                } catch(JSONException e){
+                } catch (JSONException e) {
                     e.printStackTrace();
                 }
 
+                instagramPhotosAdapter.notifyDataSetChanged();
             }
 
             @Override
