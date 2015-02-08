@@ -40,16 +40,7 @@ public class InstagramPopularMediaService {
                     for(int i = 0; i < photosJSON.length(); i++){
                         JSONObject photoJSON = photosJSON.getJSONObject(i);
 
-                        InstagramPhoto instagramPhoto = new InstagramPhoto();
-                        instagramPhoto.setUsername(photoJSON.getJSONObject("user").getString("username"));
-                        if (photoJSON.optJSONObject("caption") != null) {
-                            instagramPhoto.setCaption(photoJSON.getJSONObject("caption").getString("text"));
-                        }
-                        JSONObject standard_resolution_image = photoJSON.getJSONObject("images").getJSONObject("standard_resolution");
-                        instagramPhoto.setImageUrl(standard_resolution_image.getString("url"));
-                        instagramPhoto.setImageHeight(standard_resolution_image.getInt("height"));
-                        instagramPhoto.setLikesCount(photoJSON.getJSONObject("likes").getInt("count"));
-
+                        InstagramPhoto instagramPhoto = createPhotoFromJSON(photoJSON);
                         instagramPhotos.add(instagramPhoto);
                     }
                 } catch(JSONException e){
@@ -64,5 +55,21 @@ public class InstagramPopularMediaService {
                 Log.i("DEBUG", "INSIDE OF FAILURE");
             }
         });
+    }
+
+    private InstagramPhoto createPhotoFromJSON(JSONObject photoJSON) throws JSONException {
+        InstagramPhoto instagramPhoto = new InstagramPhoto();
+        instagramPhoto.setUsername(photoJSON.getJSONObject("user").getString("username"));
+        instagramPhoto.setLikesCount(photoJSON.getJSONObject("likes").getInt("count"));
+
+        if (photoJSON.optJSONObject("caption") != null) {
+            instagramPhoto.setCaption(photoJSON.getJSONObject("caption").getString("text"));
+        }
+
+        JSONObject standard_resolution_image = photoJSON.getJSONObject("images").getJSONObject("standard_resolution");
+        instagramPhoto.setImageUrl(standard_resolution_image.getString("url"));
+        instagramPhoto.setImageHeight(standard_resolution_image.getInt("height"));
+
+        return  instagramPhoto;
     }
 }
