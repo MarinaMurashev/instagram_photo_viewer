@@ -9,6 +9,7 @@ import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.example.marinamurashev.instagram_photo_viewer.CircleTransform;
 import com.example.marinamurashev.instagram_photo_viewer.R;
 import com.example.marinamurashev.instagram_photo_viewer.models.InstagramPhoto;
 import com.squareup.picasso.Picasso;
@@ -53,7 +54,7 @@ public class InstagramPhotosAdapter extends ArrayAdapter<InstagramPhoto> {
         viewHolder.tvCaption.setText(instagramPhoto.getCaption());
         viewHolder.ivPhoto.setImageResource(0);
         Picasso.with(getContext()).load(instagramPhoto.getImageUrl()).into(viewHolder.ivPhoto);
-        Picasso.with(getContext()).load(instagramPhoto.getUserProfileImageUrl()).into(viewHolder.ivUserPhoto);
+        Picasso.with(getContext()).load(instagramPhoto.getUserProfileImageUrl()).transform(new CircleTransform()).into(viewHolder.ivUserPhoto);
 
         return convertView;
     }
