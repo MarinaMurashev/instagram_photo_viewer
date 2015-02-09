@@ -23,6 +23,7 @@ public class InstagramPhotosAdapter extends ArrayAdapter<InstagramPhoto> {
         TextView tvCaption;
         TextView tvUsername;
         TextView tvCreateTime;
+        TextView tvLikesCount;
         ImageView ivPhoto;
         ImageView ivUserPhoto;
     }
@@ -45,6 +46,7 @@ public class InstagramPhotosAdapter extends ArrayAdapter<InstagramPhoto> {
             viewHolder.tvCaption = (TextView) convertView.findViewById(R.id.tvCaption);
             viewHolder.tvUsername = (TextView) convertView.findViewById(R.id.tvUsername);
             viewHolder.tvCreateTime = (TextView) convertView.findViewById(R.id.tvCreateTime);
+            viewHolder.tvLikesCount = (TextView) convertView.findViewById(R.id.tvLikesCount);
             viewHolder.ivPhoto = (ImageView) convertView.findViewById(R.id.ivPhoto);
             viewHolder.ivUserPhoto = (ImageView) convertView.findViewById(R.id.ivUserPhoto);
             convertView.setTag(viewHolder);
@@ -55,6 +57,9 @@ public class InstagramPhotosAdapter extends ArrayAdapter<InstagramPhoto> {
         String boldUsername = "<b>" + instagramPhoto.getUsername() + "</b>";
         viewHolder.tvUsername.setText(Html.fromHtml(boldUsername));
         viewHolder.tvCaption.setText(instagramPhoto.getCaption());
+        
+        String likes_string = getContext().getResources().getString(R.string.likes);
+        viewHolder.tvLikesCount.setText(Integer.toString(instagramPhoto.getLikesCount()) + " " + likes_string);
 
         CharSequence created_at_text = DateUtils.getRelativeTimeSpanString(instagramPhoto.getCreatedAt() * 1000, System.currentTimeMillis(), DateUtils.SECOND_IN_MILLIS);
         viewHolder.tvCreateTime.setText(created_at_text);
