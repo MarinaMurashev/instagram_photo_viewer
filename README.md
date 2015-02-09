@@ -7,9 +7,10 @@ Time spent: 5 hours spent in total
 Completed user stories:
 
  * [x] Required: User can view a list of the most popular Instagram photos including the photo itself, its caption, and its username.
- * [x] Optional: User's profile picture is displayed as a circle.
+ * [x] Optional: User's profile picture is displayed.
  * [x] Optional: Photo's like count is displayed.
  * [x] Optional: Relative timestamp of photo post is displayed.
+ * [x] Advanced: User's profile picture is displayed using a RoundedImageView
 
 
 Walkthrough of all user stories:
