@@ -6,6 +6,15 @@ public class InstagramPhoto {
     private String caption;
     private int likesCount;
     private int imageHeight;
+    private long createdAt;
+
+    public long getCreatedAt() {
+        return createdAt;
+    }
+
+    public void setCreatedAt(long createdAt) {
+        this.createdAt = createdAt;
+    }
 
     public String getUserProfileImageUrl() {
         return userProfileImageUrl;

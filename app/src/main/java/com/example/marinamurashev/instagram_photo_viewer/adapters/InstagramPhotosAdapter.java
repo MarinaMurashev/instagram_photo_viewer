@@ -2,6 +2,7 @@ package com.example.marinamurashev.instagram_photo_viewer.adapters;
 
 import android.content.Context;
 import android.text.Html;
+import android.text.format.DateUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -21,6 +22,7 @@ public class InstagramPhotosAdapter extends ArrayAdapter<InstagramPhoto> {
     private static class ViewHolder {
         TextView tvCaption;
         TextView tvUsername;
+        TextView tvCreateTime;
         ImageView ivPhoto;
         ImageView ivUserPhoto;
     }
@@ -42,6 +44,7 @@ public class InstagramPhotosAdapter extends ArrayAdapter<InstagramPhoto> {
 
             viewHolder.tvCaption = (TextView) convertView.findViewById(R.id.tvCaption);
             viewHolder.tvUsername = (TextView) convertView.findViewById(R.id.tvUsername);
+            viewHolder.tvCreateTime = (TextView) convertView.findViewById(R.id.tvCreateTime);
             viewHolder.ivPhoto = (ImageView) convertView.findViewById(R.id.ivPhoto);
             viewHolder.ivUserPhoto = (ImageView) convertView.findViewById(R.id.ivUserPhoto);
             convertView.setTag(viewHolder);
@@ -52,7 +55,12 @@ public class InstagramPhotosAdapter extends ArrayAdapter<InstagramPhoto> {
         String boldUsername = "<b>" + instagramPhoto.getUsername() + "</b>";
         viewHolder.tvUsername.setText(Html.fromHtml(boldUsername));
         viewHolder.tvCaption.setText(instagramPhoto.getCaption());
+
+        CharSequence created_at_text = DateUtils.getRelativeTimeSpanString(instagramPhoto.getCreatedAt() * 1000, System.currentTimeMillis(), DateUtils.SECOND_IN_MILLIS);
+        viewHolder.tvCreateTime.setText(created_at_text);
+        
         viewHolder.ivPhoto.setImageResource(0);
+        viewHolder.ivUserPhoto.setImageResource(0);
         Picasso.with(getContext()).load(instagramPhoto.getImageUrl()).into(viewHolder.ivPhoto);
         Picasso.with(getContext()).load(instagramPhoto.getUserProfileImageUrl()).transform(new CircleTransform()).into(viewHolder.ivUserPhoto);
 

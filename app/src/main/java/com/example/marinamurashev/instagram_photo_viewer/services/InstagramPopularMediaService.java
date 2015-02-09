@@ -59,6 +59,7 @@ public class InstagramPopularMediaService {
 
     private InstagramPhoto createPhotoFromJSON(JSONObject photoJSON) throws JSONException {
         InstagramPhoto instagramPhoto = new InstagramPhoto();
+        instagramPhoto.setCreatedAt(Long.parseLong(photoJSON.getString("created_time")));
         instagramPhoto.setUsername(photoJSON.getJSONObject("user").getString("username"));
         instagramPhoto.setLikesCount(photoJSON.getJSONObject("likes").getInt("count"));
         instagramPhoto.setUserProfileImageUrl(photoJSON.getJSONObject("user").getString("profile_picture"));
